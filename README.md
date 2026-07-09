@@ -116,12 +116,6 @@ Branding/
 ![Export](Branding/screenshots/export.png)
 
 ---
-
-## 🐳 Docker Execution
-
-![Docker](Branding/screenshots/docker.png)
-
----
 # 🚀 Running DescribeX Locally
 
 The project has been verified to work in a local development environment.
