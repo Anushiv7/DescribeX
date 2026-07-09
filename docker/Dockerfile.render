@@ -1,0 +1,32 @@
+FROM python:3.11-slim
+
+# Set environment variables
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1
+
+# Install FFmpeg (required for video preprocessing)
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends ffmpeg && \
+    rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Copy dependency files first to leverage Docker layer caching
+COPY pyproject.toml .
+COPY docker/requirements.txt requirements.txt
+
+# Install core dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the engine source code
+COPY engine/ ./engine/
+COPY README.md .
+
+# Install the engine package including API dependencies
+RUN pip install --no-cache-dir -e .[api]
+
+# Expose the default port
+EXPOSE 10000
+
+# Start the FastAPI server, binding to the injected PORT
+CMD sh -c "uvicorn engine.api:app --host 0.0.0.0 --port ${PORT:-10000}"
