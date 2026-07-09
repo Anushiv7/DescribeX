@@ -122,168 +122,6 @@ Branding/
 ![Docker](Branding/screenshots/docker.png)
 
 ---
-
-# 🏗️ Architecture
-
-<p align="center">
-</p>
-
-DescribeX consists of two independent but tightly integrated components.
-
-## 🌐 DescribeX Web
-
-A modern **Next.js** application focused on user experience.
-
-Responsibilities:
-
-- Upload videos
-- Manage caption jobs
-- Display AI responses
-- Caption editing
-- Export workflow
-- Responsive UI
-
----
-
-## 🧠 DescribeX Engine
-
-A reusable Python caption engine powering both the web application and the hackathon Docker submission.
-
-Responsibilities:
-
-- Video preprocessing
-- Frame extraction
-- Prompt engineering
-- Vision model inference
-- Caption generation
-- Caption formatting
-- Output serialization
-
-Because the engine is separated from the frontend, it can easily be integrated into future desktop applications, APIs, or batch-processing pipelines.
-
----
-
-# ✨ Features
-
-## 🎥 AI Caption Generation
-
-Generate expressive captions in multiple writing styles.
-
-- Formal
-- Sarcastic
-- Humorous (Tech)
-- Humorous (Non-Tech)
-
-Powered by state-of-the-art multimodal AI models.
-
----
-
-## ✍️ Human-in-the-Loop Editing
-
-Generated captions can be reviewed and refined before export.
-
-This ensures AI assists creators rather than replacing creative control.
-
----
-## 🎨 Modern User Experience
-
-DescribeX focuses on simplicity and accessibility.
-
-Features include:
-
-- Clean Apple-inspired UI
-- Responsive layouts
-- Fast upload workflow
-- Premium visual design
-- Creator-first experience
-
----
-## 📤 Export
-
-Current export capabilities include:
-
-- Copy generated captions
-- Download generated caption text
-
-Planned export formats include:
-
-- SRT
-- VTT
-- TXT
-- Burn captions into video
-- Cloud storage integrations
-
----
-
-## 🧩 Modular Caption Engine
-
-The caption engine is completely separated from the frontend, allowing it to be reused as:
-
-- Web API
-- Docker container
-- Standalone Python package
-- Future desktop application
----
-
-# 🛠 Tech Stack
-
-| Layer | Technology |
-|--------|------------|
-| Frontend | Next.js 16 |
-| UI | React 19 |
-| Language | TypeScript |
-| Styling | Tailwind CSS |
-| Backend | Python |
-| AI Provider | Fireworks AI |
-| Containerization | Docker |
-
----
-# 📂 Repository Structure
-
-```text
-DescribeX
-│
-├── apps/
-│   └── web/                         # Next.js frontend
-│       ├── src/
-│       ├── public/
-│       ├── package.json
-│       └── next.config.ts
-│
-├── engine/                          # AI Caption Engine
-│   ├── api.py
-│   ├── core/
-│   ├── formatting/
-│   ├── preprocessing/
-│   ├── prompting/
-│   ├── providers/
-│   ├── tests/
-│   └── utils/
-│
-├── docker/                          # Docker configuration
-│   ├── Dockerfile
-│   ├── Dockerfile.render
-│   ├── entrypoint.py
-│   └── requirements.txt
-│
-├── Branding/
-│   ├── logo.png
-│   ├── architecture.png
-│   └── screenshots/
-│
-├── docs/                            # Documentation
-├── samples/                         # Sample videos
-├── supabase/
-├── tests/
-│
-├── pyproject.toml
-├── README.md
-├── .dockerignore
-└── .gitignore
-```
-
----
-
 # 🚀 Running DescribeX Locally
 
 The project has been verified to work in a local development environment.
@@ -479,6 +317,166 @@ The backend was temporarily deployed on **Render** for demonstration purposes.
 
 Production deployment was intended for **AMD Developer Cloud**, which offers significantly better infrastructure for AI-powered video processing workloads.
 
+---
+
+# 🏗️ Architecture
+
+<p align="center">
+</p>
+
+DescribeX consists of two independent but tightly integrated components.
+
+## 🌐 DescribeX Web
+
+A modern **Next.js** application focused on user experience.
+
+Responsibilities:
+
+- Upload videos
+- Manage caption jobs
+- Display AI responses
+- Caption editing
+- Export workflow
+- Responsive UI
+
+---
+
+## 🧠 DescribeX Engine
+
+A reusable Python caption engine powering both the web application and the hackathon Docker submission.
+
+Responsibilities:
+
+- Video preprocessing
+- Frame extraction
+- Prompt engineering
+- Vision model inference
+- Caption generation
+- Caption formatting
+- Output serialization
+
+Because the engine is separated from the frontend, it can easily be integrated into future desktop applications, APIs, or batch-processing pipelines.
+
+---
+
+# ✨ Features
+
+## 🎥 AI Caption Generation
+
+Generate expressive captions in multiple writing styles.
+
+- Formal
+- Sarcastic
+- Humorous (Tech)
+- Humorous (Non-Tech)
+
+Powered by state-of-the-art multimodal AI models.
+
+---
+
+## ✍️ Human-in-the-Loop Editing
+
+Generated captions can be reviewed and refined before export.
+
+This ensures AI assists creators rather than replacing creative control.
+
+---
+## 🎨 Modern User Experience
+
+DescribeX focuses on simplicity and accessibility.
+
+Features include:
+
+- Clean Apple-inspired UI
+- Responsive layouts
+- Fast upload workflow
+- Premium visual design
+- Creator-first experience
+
+---
+## 📤 Export
+
+Current export capabilities include:
+
+- Copy generated captions
+- Download generated caption text
+
+Planned export formats include:
+
+- SRT
+- VTT
+- TXT
+- Burn captions into video
+- Cloud storage integrations
+
+---
+
+## 🧩 Modular Caption Engine
+
+The caption engine is completely separated from the frontend, allowing it to be reused as:
+
+- Web API
+- Docker container
+- Standalone Python package
+- Future desktop application
+---
+
+# 🛠 Tech Stack
+
+| Layer | Technology |
+|--------|------------|
+| Frontend | Next.js 16 |
+| UI | React 19 |
+| Language | TypeScript |
+| Styling | Tailwind CSS |
+| Backend | Python |
+| AI Provider | Fireworks AI |
+| Containerization | Docker |
+
+---
+# 📂 Repository Structure
+
+```text
+DescribeX
+│
+├── apps/
+│   └── web/                         # Next.js frontend
+│       ├── src/
+│       ├── public/
+│       ├── package.json
+│       └── next.config.ts
+│
+├── engine/                          # AI Caption Engine
+│   ├── api.py
+│   ├── core/
+│   ├── formatting/
+│   ├── preprocessing/
+│   ├── prompting/
+│   ├── providers/
+│   ├── tests/
+│   └── utils/
+│
+├── docker/                          # Docker configuration
+│   ├── Dockerfile
+│   ├── Dockerfile.render
+│   ├── entrypoint.py
+│   └── requirements.txt
+│
+├── Branding/
+│   ├── logo.png
+│   ├── architecture.png
+│   └── screenshots/
+│
+├── docs/                            # Documentation
+├── samples/                         # Sample videos
+├── supabase/
+├── tests/
+│
+├── pyproject.toml
+├── README.md
+├── .dockerignore
+└── .gitignore
+```
 ---
 
 # 🔐 Environment Variables
