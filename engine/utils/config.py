@@ -86,7 +86,7 @@ class EngineConfig(BaseSettings):
         description="Maximum number of representative frames to sample.",
     )
     target_sample_frames: int = Field(
-        default=50,
+        default=16,
         description="Target number of frames for smart sampling.",
     )
 

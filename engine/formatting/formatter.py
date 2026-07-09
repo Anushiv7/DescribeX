@@ -19,6 +19,23 @@ REQUIRED_STYLES: frozenset[str] = frozenset(
     {"formal", "sarcastic", "humorous_tech", "humorous_non_tech"}
 )
 
+_UNICODE_NORMALIZATION = {
+    "\u2011": "-",
+    "\u2013": "-",
+    "\u2014": "-",
+    "\u2018": "'",
+    "\u2019": "'",
+    "\u201c": '"',
+    "\u201d": '"',
+}
+
+
+def _normalize_punctuation(text: str) -> str:
+    """Normalize common unicode punctuation to ASCII equivalents."""
+    for unicode_char, ascii_char in _UNICODE_NORMALIZATION.items():
+        text = text.replace(unicode_char, ascii_char)
+    return text
+
 
 def _strip_code_fences(text: str) -> str:
     """Remove markdown code fences (```json ... ``` or ``` ... ```) if present."""
@@ -54,7 +71,7 @@ def _clean_caption(value: str) -> str:
     # Remove surrounding double-quotes if the entire string is quoted
     if len(cleaned) >= 2 and cleaned.startswith('"') and cleaned.endswith('"'):
         cleaned = cleaned[1:-1].strip()
-    return cleaned
+    return _normalize_punctuation(cleaned)
 
 
 def format_captions(raw_response: str) -> dict[str, str]:
