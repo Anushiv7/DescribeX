@@ -1,0 +1,11 @@
+[
+  {
+    "id": "task_1",
+    "captions": {
+      "humorous_tech": "Looks like the city got caught in an infinite loop of datamoshing-every car is a stray packet racing through a corrupted buffer. The trees and sky are rendered with the same pixel-shifting algorithm you'd see in a badly compiled shader. Even the \"KOREA TIMES ENGINEERING\" sign is trying to debug itself, but the UI is stuck in a recursive glitch. In short, the footage is a perfect example of a memory leak in the visual pipeline.",
+      "formal": "The footage shows an urban street corridor lined with mid-rise buildings, including signage for \"KOREA TIMES ENGINEERING\" and \"INSURANCE\". Dense rows of yellow-green trees flank the roadway, while a continuous flow of motor vehicles traverses the lanes toward the distant skyline. The entire scene is rendered with a uniform digital fragmentation effect that divides the image into displaced rectangular tiles, creating a mosaic-like distortion. Lighting conditions indicate daytime with clear sky and direct sunlight.",
+      "humorous_non_tech": "Imagine watching rush hour through a broken TV set-cars are there, trees are there, but everything looks like it's been sliced and shuffled. The signs on the buildings still try to sell you something, even though the picture is more scrambled than a morning coffee spill. It's like the city decided to wear a pixelated costume for Halloween and never took it off. At least the sunlight is still bright, even if the view is a bit\u2026 glitchy.",
+      "sarcastic": "Oh great, another serene city street-except the world decided to break into a thousand tiny Lego bricks. The traffic moves along like it's in a simulation glitch, and the trees look like they were Photoshop-filtered by a toddler. Meanwhile, the building signs proudly announce \"KOREA TIMES ENGINEERING\" as if that will fix the visual mess. Nothing says \"urban calm\" like a digital kaleidoscope."
+    }
+  }
+]

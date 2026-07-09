@@ -13,11 +13,11 @@ COPY docker/requirements.txt requirements.txt
 
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
-RUN pip install --no-cache-dir hatchling
+
 
 # Copy the engine source
 COPY engine/ ./engine/
-COPY Readme.md .
+COPY README.md .
 
 # Install the engine package
 RUN pip install --no-cache-dir -e .

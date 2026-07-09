@@ -6,7 +6,7 @@ build-backend = "hatchling.build"
 name = "describex-engine"
 version = "0.1.0"
 description = "AI-powered multi-style video captioning engine for DescribeX."
-readme = "Readme.md"
+readme = "README.md"
 license = "MIT"
 requires-python = ">=3.11"
 authors = [
