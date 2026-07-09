@@ -55,7 +55,7 @@ class GeminiProvider(BaseProvider):
 
     def generate_scene_description(self, messages: list[dict]) -> str:
         """Send a vision prompt to Gemini and return the scene description."""
-        model_id = self._config.vision_model_id
+        model_id = self._config.gemini_model
         logger.info(
             "Generating scene description via Gemini (model=%s)", model_id
         )
@@ -64,7 +64,7 @@ class GeminiProvider(BaseProvider):
 
     def generate_captions(self, messages: list[dict]) -> str:
         """Send a text prompt to Gemini and return raw caption JSON."""
-        model_id = self._config.text_model_id
+        model_id = self._config.gemini_model
         logger.info("Generating captions via Gemini (model=%s)", model_id)
         contents = self._convert_messages(messages)
         return self._call(model_id, contents)
@@ -149,8 +149,7 @@ class GeminiProvider(BaseProvider):
         if not model_id:
             raise ProviderError(
                 "No model ID configured. "
-                "Set DESCRIBEX_VISION_MODEL_ID and DESCRIBEX_TEXT_MODEL_ID "
-                "in your environment or .env file."
+                "Set DESCRIBEX_GEMINI_MODEL in your environment or .env file."
             )
 
         last_error: Exception | None = None

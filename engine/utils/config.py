@@ -65,11 +65,15 @@ class EngineConfig(BaseSettings):
     # --- Model IDs (read from env — never hardcoded) ---
     vision_model_id: str = Field(
         default="",
-        description="Model ID for scene description (vision inference).",
+        description="Model ID for scene description (vision inference) (Fireworks).",
     )
     text_model_id: str = Field(
         default="",
-        description="Model ID for caption generation (text inference).",
+        description="Model ID for caption generation (text inference) (Fireworks).",
+    )
+    gemini_model: str = Field(
+        default="",
+        description="Model ID for the Google Gemini provider.",
     )
 
     # --- Preprocessing Limits ---
