@@ -12,7 +12,7 @@ Built for **AMD Developer Hackathon: ACT II — Track 2 (Video Captioning)**
 
 <p align="center">
 
-<img src="Branding/screenshots/landing.png" width="900"/>
+<img src="Branding/Screenshots/landing.png" width="900"/>
 
 </p>
 
