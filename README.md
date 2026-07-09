@@ -126,9 +126,6 @@ Branding/
 # 🏗️ Architecture
 
 <p align="center">
-
-<img src="Branding/architecture.png" width="950"/>
-
 </p>
 
 DescribeX consists of two independent but tightly integrated components.
@@ -145,7 +142,6 @@ Responsibilities:
 - Caption editing
 - Export workflow
 - Responsive UI
-- Theme management
 
 ---
 
@@ -189,21 +185,6 @@ Generated captions can be reviewed and refined before export.
 This ensures AI assists creators rather than replacing creative control.
 
 ---
-
-## 📤 Multiple Export Formats
-
-Generate captions in commonly used formats.
-
-- SRT
-- VTT
-- TXT
-- Burn captions into video
-- Copy to clipboard
-
-Additional export targets are planned for future releases.
-
----
-
 ## 🎨 Modern User Experience
 
 DescribeX focuses on simplicity and accessibility.
@@ -211,12 +192,37 @@ DescribeX focuses on simplicity and accessibility.
 Features include:
 
 - Clean Apple-inspired UI
-- Dark / Light mode
 - Responsive layouts
 - Fast upload workflow
 - Premium visual design
 - Creator-first experience
 
+---
+## 📤 Export
+
+Current export capabilities include:
+
+- Copy generated captions
+- Download generated caption text
+
+Planned export formats include:
+
+- SRT
+- VTT
+- TXT
+- Burn captions into video
+- Cloud storage integrations
+
+---
+
+## 🧩 Modular Caption Engine
+
+The caption engine is completely separated from the frontend, allowing it to be reused as:
+
+- Web API
+- Docker container
+- Standalone Python package
+- Future desktop application
 ---
 
 # 🛠 Tech Stack
@@ -230,8 +236,6 @@ Features include:
 | Backend | Python |
 | AI Provider | Fireworks AI |
 | Containerization | Docker |
-| Database | Supabase PostgreSQL |
-| Authentication | Supabase Auth (Planned) |
 
 ---
 # 📂 Repository Structure
