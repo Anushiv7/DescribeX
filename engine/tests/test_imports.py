@@ -78,12 +78,4 @@ def test_get_logger_returns_logger() -> None:
     assert isinstance(logger, logging.Logger)
 
 
-def test_generate_captions_raises_not_implemented() -> None:
-    """generate_captions should raise NotImplementedError in Phase 1."""
-    import pytest
 
-    from engine.core.caption_engine import CaptionEngine
-
-    engine = CaptionEngine()
-    with pytest.raises(NotImplementedError):
-        engine.generate_captions("/fake/video.mp4")

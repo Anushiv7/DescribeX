@@ -23,3 +23,16 @@ class ValidationError(DescribeXError):
 
 class ProviderError(DescribeXError):
     """Raised when an AI provider request fails (timeout, auth, bad response)."""
+
+
+class PreprocessingError(DescribeXError):
+    """Raised when video preprocessing fails (extraction, sampling)."""
+
+
+class FormattingError(DescribeXError):
+    """Raised when caption formatting or parsing fails."""
+
+
+class ExportError(DescribeXError):
+    """Raised when caption export fails."""
+

@@ -24,14 +24,19 @@ class EngineConfig(BaseSettings):
     A ``.env`` file in the project root is also supported.
 
     Attributes:
+        provider: Which AI provider to use ('fireworks' or 'gemini').
         fireworks_api_key: API key for the Fireworks AI provider.
-        model_id: Identifier of the AI model to use for inference.
+        gemini_api_key: API key for the Google Gemini provider.
+        vision_model_id: Model ID for scene description (vision inference).
+        text_model_id: Model ID for caption generation (text inference).
         max_video_duration_seconds: Maximum allowed video length in seconds.
         max_frames: Maximum number of frames to sample from a video.
+        target_sample_frames: Target number of frames for smart sampling.
         temperature: Sampling temperature for caption generation.
         output_format: Output serialization format.
         log_level: Logging verbosity level.
         request_timeout_seconds: Timeout for external API requests.
+        supported_formats: Comma-separated list of supported video extensions.
     """
 
     model_config = SettingsConfigDict(
@@ -41,14 +46,30 @@ class EngineConfig(BaseSettings):
         extra="ignore",
     )
 
-    # --- AI Provider ---
+    # --- Provider Selection ---
+    provider: str = Field(
+        default="fireworks",
+        description="AI provider to use: 'fireworks' or 'gemini'.",
+    )
+
+    # --- API Keys ---
     fireworks_api_key: str = Field(
         default="",
         description="API key for the Fireworks AI provider.",
     )
-    model_id: str = Field(
+    gemini_api_key: str = Field(
         default="",
-        description="Identifier of the AI model to use for inference.",
+        description="API key for the Google Gemini provider.",
+    )
+
+    # --- Model IDs (read from env — never hardcoded) ---
+    vision_model_id: str = Field(
+        default="",
+        description="Model ID for scene description (vision inference).",
+    )
+    text_model_id: str = Field(
+        default="",
+        description="Model ID for caption generation (text inference).",
     )
 
     # --- Preprocessing Limits ---
@@ -59,6 +80,10 @@ class EngineConfig(BaseSettings):
     max_frames: int = Field(
         default=60,
         description="Maximum number of representative frames to sample.",
+    )
+    target_sample_frames: int = Field(
+        default=50,
+        description="Target number of frames for smart sampling.",
     )
 
     # --- Inference ---
@@ -82,6 +107,20 @@ class EngineConfig(BaseSettings):
         default=60,
         description="Timeout in seconds for external API requests.",
     )
+
+    # --- Video Formats ---
+    supported_formats: str = Field(
+        default=".mp4,.mov,.avi,.webm,.mkv",
+        description="Comma-separated list of supported video file extensions.",
+    )
+
+    def get_supported_formats(self) -> tuple[str, ...]:
+        """Return supported video extensions as a tuple."""
+        return tuple(
+            fmt.strip().lower()
+            for fmt in self.supported_formats.split(",")
+            if fmt.strip()
+        )
 
 
 @lru_cache(maxsize=1)
