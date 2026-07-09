@@ -89,31 +89,31 @@ Branding/
 
 ## 🏠 Landing Page
 
-![Landing Page](Branding/screenshots/landing.png)
+![Landing Page](Branding/Screenshots/landing.png)
 
 ---
 
 ## 📤 Upload Workflow
 
-![Upload](Branding/screenshots/upload.png)
+![Upload](Branding/Screenshots/upload.png)
 
 ---
 
 ## 🤖 Caption Generation
 
-![Caption Generation](Branding/screenshots/captions.png)
+![Caption Generation](Branding/Screenshots/captions.png)
 
 ---
 
 ## ✏️ Caption Editing
 
-![Editing](Branding/screenshots/editing.png)
+![Editing](Branding/Screenshots/editing.png)
 
 ---
 
 ## 📥 Export Options
 
-![Export](Branding/screenshots/export.png)
+![Export](Branding/Screenshots/export.png)
 
 ---
 # 🚀 Running DescribeX Locally
