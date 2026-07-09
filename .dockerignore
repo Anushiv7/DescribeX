@@ -1,0 +1,16 @@
+.git
+.gitignore
+.pytest_cache
+.ruff_cache
+__pycache__
+node_modules
+.env
+.env.*
+*.pyc
+*.pyo
+.next
+dist
+tests
+examples
+notes
+.agents
