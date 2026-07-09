@@ -1,209 +1,70 @@
-# DescribeX
-
 <div align="center">
 
-### Open-source AI-powered multi-style video captioning platform for creators.
+<img src="Branding/logo.png" alt="DescribeX Logo" width="180"/>
 
-Built for **AMD Developer Hackathon: ACT II** (Track 2 – Video Captioning)
+# DescribeX
 
-Making caption generation accessible, portable, and creator-first.
+### 🎬 Create Once. Caption Everywhere.
+
+**Open-source AI-powered multi-style video captioning platform for creators.**
+
+Built for **AMD Developer Hackathon: ACT II — Track 2 (Video Captioning)**
+
+<br>
+
+![Python](https://img.shields.io/badge/Python-3.11-blue)
+![Next.js](https://img.shields.io/badge/Next.js-16-black)
+![React](https://img.shields.io/badge/React-19-61DAFB)
+![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED)
+![Fireworks AI](https://img.shields.io/badge/Fireworks-AI-red)
+![MIT License](https://img.shields.io/badge/License-MIT-green)
 
 </div>
 
 ---
 
-## ✨ Overview
+# 🚨 Note for Hackathon Judges
 
-DescribeX is an open-source AI-powered video captioning platform designed to help creators generate high-quality captions for short-form videos in multiple expressive styles.
+Thank you for taking the time to review **DescribeX**.
 
-Whether you're publishing on YouTube, Instagram, LinkedIn, or any other platform, DescribeX enables you to generate, edit, and export captions without being locked into a single ecosystem.
+During the final stage of development we encountered deployment limitations unrelated to the application itself.
 
-Built for the **AMD Developer Hackathon: ACT II**, DescribeX is designed to outlive the competition as a long-term open-source project focused on accessibility and creator ownership.
+## AMD Developer Cloud
 
----
+DescribeX was originally intended to be deployed on **AMD Developer Cloud** to showcase GPU-powered inference.
 
-## 🏗 Project Architecture
-
-DescribeX consists of two primary components.
-
-### 🌐 DescribeX Web
-
-A modern web application where creators can:
-
-- Upload videos
-- Generate captions
-- Edit captions
-- Export captions
-- Manage previous caption jobs
-
-### 🧠 DescribeX Engine
-
-A reusable Python-based caption generation engine responsible for:
-
-- Video preprocessing
-- Frame extraction
-- AI inference
-- Caption generation
-- Caption formatting
-
-The same engine powers both the web application and the AMD Hackathon Docker submission.
+Unfortunately, our AMD Developer Cloud resource request was still pending during the submission period, preventing us from deploying the production instance before the deadline.
 
 ---
 
-## ✨ Features
+## Temporary Deployment
 
-### Caption Generation
+As a temporary alternative, the backend was deployed on **Render**.
 
-- Multi-style AI caption generation
-- Formal captions
-- Sarcastic captions
-- Humorous (Tech)
-- Humorous (Non-Tech)
+The application builds successfully and the API starts correctly, however Render's free web service is limited to **512 MB RAM**.
 
-### Editing
+Video processing exceeds this memory limit, resulting in an **Out Of Memory (OOM)** error while processing uploaded videos.
 
-- Inline caption editing
-- Human-in-the-loop workflow
-
-### Export
-
-- Export as SRT
-- Export as VTT
-- Export as TXT
-- Burn captions into video
-- Copy to clipboard
-- Upload directly to Google Drive
-
-### User Experience
-
-- Google Authentication
-- Caption history
-- Dark / Light mode
-- Creator-first interface
+This is a hosting limitation rather than an application limitation.
 
 ---
 
-## 🛠 Tech Stack
+## Local Execution
 
-### Frontend
+The application runs successfully in a local environment, including:
 
-- Next.js
-- TypeScript
-- Tailwind CSS
-- shadcn/ui
+- ✅ Caption Engine
+- ✅ Fireworks AI integration
+- ✅ Docker container
+- ✅ Frontend
+- ✅ Backend API
 
-### Backend
+### ⭐ **See Local Setup → [Running DescribeX Locally](#-running-describex-locally)**
 
-- Python
-
-### AI
-
-- Fireworks AI
-- Gemma
-
-### Database
-
-- Supabase PostgreSQL
-
-### Authentication
-
-- Supabase Auth
-- Google OAuth
+Thank you for your understanding.
 
 ---
 
-## 📂 Repository Structure
+# 📸 Screenshots
 
-```text
-DescribeX/
-
-├── apps/
-│   └── web/
-│
-├── engine/
-│   ├── core/
-│   ├── preprocessing/
-│   ├── prompting/
-│   ├── formatting/
-│   ├── models/
-│   ├── utils/
-│   └── tests/
-│
-├── docker/
-├── docs/
-├── components/
-├── hooks/
-├── lib/
-├── public/
-├── styles/
-├── supabase/
-└── types/
-```
-
----
-
-## 🎯 Product Principles
-
-DescribeX is built around five core principles.
-
-- Accessibility First
-- Creator Ownership
-- Open Source Forever
-- Simplicity Over Complexity
-- AI Assists, Humans Decide
-
----
-
-## 🚧 Development Status
-
-**Current Phase**
-
-✅ Phase 1 Complete
-
-✓ Python package
-✓ Configuration
-✓ Logging
-✓ Exceptions
-✓ CaptionEngine skeleton
-✓ Smoke tests
-✓ Tooling
-### Next Milestones
-
-- Engine Development
-- Web Application
-- Docker Submission
-- Deployment
-
----
-
-## 📖 Documentation
-
-Project documentation is available inside the `docs/` directory.
-
-- Product Requirements Document
-- Software Architecture
-- Project Scaffolding
-- API Documentation
-- Hackathon Compliance
-
----
-
-## 🌍 Vision
-
-DescribeX exists to make professional-quality caption generation free, accessible, and portable for creators everywhere.
-
-Accessibility should never become a premium feature.
-
----
-
-## 🤝 Contributing
-
-DescribeX is open source and community contributions are always welcome.
-
-Contribution guidelines will be published as the project progresses.
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License.
+> Replace these placeholder images with screenshots stored inside:
