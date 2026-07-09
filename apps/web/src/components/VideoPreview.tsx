@@ -8,24 +8,18 @@ interface VideoPreviewProps {
 
 export default function VideoPreview({ url, filename, onClear }: VideoPreviewProps) {
   return (
-    <div className="relative rounded-xl overflow-hidden bg-zinc-900 border border-zinc-800">
-      <div className="absolute top-4 right-4 z-10">
+    <div className="rounded-2xl overflow-hidden border border-[var(--color-border)] bg-[var(--color-card)]">
+      <div className="relative bg-black">
         <button
           onClick={onClear}
-          className="bg-black/60 hover:bg-black/80 text-white backdrop-blur-md px-3 py-1.5 rounded-lg text-sm font-medium transition-colors border border-zinc-700"
+          className="absolute top-3 right-3 z-10 px-3 py-1.5 rounded-lg text-xs font-medium bg-black/60 border border-[var(--color-border)] text-[var(--color-fg)] hover:bg-black/80 backdrop-blur-md transition-colors"
         >
           Change Video
         </button>
+        <video src={url} controls className="w-full max-h-[520px] object-contain" />
       </div>
-      <video
-        src={url}
-        controls
-        className="w-full max-h-[400px] object-contain bg-black"
-      />
-      <div className="p-4 border-t border-zinc-800 flex items-center justify-between">
-        <span className="text-sm font-medium text-zinc-300 truncate max-w-full">
-          {filename}
-        </span>
+      <div className="flex items-center justify-between px-5 py-3 border-t border-[var(--color-border)]">
+        <span className="text-xs text-[var(--color-muted)] truncate">{filename}</span>
       </div>
     </div>
   );

@@ -1,32 +1,24 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { GeistSans } from "geist/font/sans";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
-
 export const metadata: Metadata = {
-  title: "DescribeX",
-  description: "AI-Powered Multi-Style Video Captioning",
+  title: "DescribeX — Create Once. Caption Everywhere.",
+  description: "AI-Powered Accessible Video Captioning",
   icons: {
     icon: [
-      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
-      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
     ],
-    apple: [
-      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
-    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
   },
-  manifest: '/site.webmanifest',
+  manifest: "/site.webmanifest",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className="dark">
-      <body className={`${inter.className} bg-black text-white antialiased`}>
+    <html lang="en" className={`dark ${GeistSans.variable}`}>
+      <body className={`${GeistSans.className} bg-[var(--color-bg)] text-[var(--color-fg)] antialiased`}>
         {children}
       </body>
     </html>

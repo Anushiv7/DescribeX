@@ -1,13 +1,23 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-:root {
-  --background: #000000;
-  --foreground: #ffffff;
+@theme {
+  --color-bg: #090909;
+  --color-card: #121212;
+  --color-border: #242424;
+  --color-accent: #ca0505;
+  --color-accent-hover: #ef0707;
+  --color-fg: #f5f5f5;
+  --color-muted: #a0a0a0;
+  --radius-2xl: 1.25rem;
 }
 
-body {
-  background-color: var(--background);
-  color: var(--foreground);
+@layer base {
+  *, ::before, ::after { border-color: var(--color-border); }
+  html, body {
+    background-color: var(--color-bg);
+    color: var(--color-fg);
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection { background: #3a0303; color: var(--color-fg); }
+  textarea, input, button { font: inherit; }
 }

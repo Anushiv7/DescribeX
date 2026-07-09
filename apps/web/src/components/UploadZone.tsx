@@ -21,31 +21,37 @@ export default function UploadZone({ onFileSelect }: UploadZoneProps) {
     setIsDragging(false);
   }, []);
 
-  const handleDrop = useCallback((e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragging(false);
-    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-      onFileSelect(e.dataTransfer.files[0]);
-    }
-  }, [onFileSelect]);
+  const handleDrop = useCallback(
+    (e: React.DragEvent) => {
+      e.preventDefault();
+      setIsDragging(false);
+      if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+        onFileSelect(e.dataTransfer.files[0]);
+      }
+    },
+    [onFileSelect]
+  );
 
-  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      onFileSelect(e.target.files[0]);
-    }
-  }, [onFileSelect]);
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (e.target.files && e.target.files.length > 0) {
+        onFileSelect(e.target.files[0]);
+      }
+    },
+    [onFileSelect]
+  );
 
   return (
     <div
-      className={`relative overflow-hidden border-2 border-dashed rounded-2xl p-16 text-center cursor-pointer transition-all duration-300 ease-out group ${
-        isDragging 
-          ? 'border-[#ED1C24] bg-[#ED1C24]/5 scale-[0.98]' 
-          : 'border-zinc-700 hover:border-zinc-500 hover:bg-zinc-900/30 hover:shadow-2xl hover:shadow-black/50'
-      }`}
+      onClick={() => inputRef.current?.click()}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
-      onClick={() => inputRef.current?.click()}
+      className={`group relative cursor-pointer rounded-2xl border border-dashed transition-all duration-200 px-8 py-14 text-center
+        ${isDragging
+          ? 'border-[var(--color-accent)] bg-[var(--color-accent)]/[0.04] scale-[0.995]'
+          : 'border-[var(--color-border)] bg-[var(--color-card)] hover:border-[color-mix(in_oklab,var(--color-border)_60%,var(--color-fg))]'}
+      `}
     >
       <input
         type="file"
@@ -54,15 +60,25 @@ export default function UploadZone({ onFileSelect }: UploadZoneProps) {
         accept="video/mp4,video/quicktime,video/x-msvideo,video/webm,video/x-matroska"
         className="hidden"
       />
-      <div className="flex flex-col items-center gap-6 relative z-10 transition-transform duration-300 group-hover:-translate-y-1">
-        <div className={`p-4 rounded-full transition-colors duration-300 ${isDragging ? 'bg-[#ED1C24]/20 text-[#ED1C24]' : 'bg-zinc-800 text-zinc-300 group-hover:bg-zinc-700 group-hover:text-white'}`}>
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+      <div className="flex flex-col items-center gap-5">
+        <div
+          className={`w-12 h-12 rounded-full flex items-center justify-center border transition-colors
+            ${isDragging
+              ? 'border-[var(--color-accent)] text-[var(--color-accent)]'
+              : 'border-[var(--color-border)] text-[var(--color-muted)] group-hover:text-[var(--color-fg)]'}
+          `}
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 16V4m0 0l-4 4m4-4l4 4M4 20h16" />
           </svg>
         </div>
         <div>
-          <p className="text-xl font-semibold text-white mb-2 tracking-tight">Click or drag a video to upload</p>
-          <p className="text-sm text-zinc-500 font-medium">MP4, MOV, WEBM (Max {MAX_VIDEO_SIZE_MB}MB, Max 2 min)</p>
+          <p className="text-[15px] font-medium text-[var(--color-fg)] tracking-tight">
+            Upload Video
+          </p>
+          <p className="mt-1.5 text-xs text-[var(--color-muted)]">
+            Drag & drop or click · MP4, MOV, WEBM · up to {MAX_VIDEO_SIZE_MB}MB · 2 min max
+          </p>
         </div>
       </div>
     </div>
