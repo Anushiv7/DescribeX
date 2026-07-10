@@ -27,6 +27,10 @@ Built for **AMD Developer Hackathon: ACT II — Track 2 (Video Captioning)**
 ![License](https://img.shields.io/badge/License-MIT-success?style=for-the-badge)
 
 </div>
+---
+### Built for AMD Developer Hackathon: ACT II — Track 2
+
+DescribeX reads `/input/tasks.json`, processes each video, generates captions in the requested styles, and writes the results to `/output/results.json` using a Dockerized AI caption engine.
 
 ---
 
@@ -83,6 +87,25 @@ Verified components include:
 Thank you for your understanding and for reviewing our project.
 
 ---
+# 🏆 AMD Developer Hackathon Compliance
+
+DescribeX was built for **AMD Developer Hackathon: ACT II – Track 2 (Video Captioning Agent)**.
+
+The submission fully complies with the required container interface.
+
+### Docker container
+
+- ✅ Reads `/input/tasks.json`
+- ✅ Downloads videos from `video_url`
+- ✅ Generates captions in all requested styles
+- ✅ Writes `/output/results.json`
+- ✅ Handles multiple tasks
+- ✅ Returns valid JSON
+- ✅ Exits with the required status codes
+
+The same Caption Engine powers both the Docker submission and the DescribeX web application.
+---
+
 
 # 🏗️ Architecture
 
@@ -90,6 +113,22 @@ Thank you for your understanding and for reviewing our project.
 </p>
 
 DescribeX consists of two independent but tightly integrated components.
+tasks.json
+      │
+      ▼
+Local Video
+      │
+      ├──────────────┐
+      ▼              │
+Frame Extraction     │
+                     │
+video_url
+      │
+      ▼
+Download
+      │
+      ▼
+Frame Extraction
 
 ## 🌐 DescribeX Web
 
@@ -105,16 +144,35 @@ Responsibilities:
 - Responsive UI
 
 ---
+## 🧠 DescribeX Engine
 
+A reusable Python caption engine powering both the web application and the hackathon Docker submission.
+
+Responsibilities:
+
+- Video preprocessing
+- Frame extraction
+- Prompt engineering
+- Vision model inference
+- Caption generation
+- Caption formatting
+- Output serialization
+
+Because the engine is separated from the frontend, it can easily be integrated into future desktop applications, APIs, or batch-processing pipelines.
+The DescribeX Caption Engine is the single source of truth for the project.
+
+It powers:
+
+- the AMD Hackathon Docker submission
+- the FastAPI backend
+- the DescribeX web application
+
+This guarantees identical caption generation behaviour across every execution environment.
+---
 
 # 📸 Screenshots
 
-> Store screenshots inside:
 
-```text
-Branding/
-└── screenshots/
-```
 
 ## 🏠 Landing Page
 
@@ -244,22 +302,15 @@ DescribeX is fully containerized for the AMD Developer Hackathon submission.
 The same Docker image powers the standalone caption engine and can be executed independently from the web application.
 
 ---
-
-## Build the Docker Image
+## Quick Docker Test
 
 ```bash
 docker build -f docker/Dockerfile -t describex .
-```
 
----
-
-## Run the Container
-
-```bash
 docker run --rm \
 --env-file .env \
--v <input_directory>:/input \
--v <output_directory>:/output \
+-v <input>:/input \
+-v <output>:/output \
 describex
 ```
 
@@ -350,25 +401,6 @@ The backend was temporarily deployed on **Render** for demonstration purposes.
 Production deployment was intended for **AMD Developer Cloud**, which offers significantly better infrastructure for AI-powered video processing workloads.
 
 ---
-
-## 🧠 DescribeX Engine
-
-A reusable Python caption engine powering both the web application and the hackathon Docker submission.
-
-Responsibilities:
-
-- Video preprocessing
-- Frame extraction
-- Prompt engineering
-- Vision model inference
-- Caption generation
-- Caption formatting
-- Output serialization
-
-Because the engine is separated from the frontend, it can easily be integrated into future desktop applications, APIs, or batch-processing pipelines.
-
----
-
 # ✨ Features
 
 ## 🎥 AI Caption Generation
@@ -406,17 +438,16 @@ Features include:
 ---
 ## 📤 Export
 
-Current export capabilities include:
+Current export capabilities
 
 - Copy generated captions
 - Download generated caption text
 
-Planned export formats include:
+Planned capabilities
 
 - SRT
 - VTT
-- TXT
-- Burn captions into video
+- Burned-in video captions
 - Cloud storage integrations
 
 ---
@@ -548,6 +579,8 @@ Generated captions remain fully editable, keeping creators in complete control.
 
 # 🚧 Development Status
 
+Status: ✅ Official Track 2 submission — Docker validated against the public sample clips.
+
 ## Completed
 
 - Frontend
@@ -556,11 +589,10 @@ Generated captions remain fully editable, keeping creators in complete control.
 - Fireworks AI Integration
 - Local Execution
 
-## Currently Working On
+## Known Deployment Limitation
 
-- Production deployment
-- AMD Developer Cloud deployment
-- Export improvements
+- Render Free Tier
+- AMD Cloud access pending
 
 ## Future Plans
 
