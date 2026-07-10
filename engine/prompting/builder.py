@@ -1,124 +1,108 @@
 """
-Prompt builder — constructs ready-to-send prompt messages.
+Frame extraction — decode video into individual JPEG frames via FFmpeg.
 
-Two public entry points:
-
-* :func:`build_scene_prompt` — multimodal prompt with base64-encoded
-  frames for the canonical scene-description step.
-* :func:`build_style_prompt` — text-only prompt that turns a scene
-  description into multi-style captions.
-
-Both return messages in the OpenAI chat-completions format so the
-provider layer can forward them without transformation.
+Calculates an extraction frame rate that keeps the total number of frames
+within the configured budget, then shells out to FFmpeg.
 """
 
 from __future__ import annotations
 
-import base64
-from typing import Any
+import os
+import subprocess
+from pathlib import Path
 
-from engine.prompting.loader import load_template
+from engine.preprocessing.validator import VideoInfo
+from engine.utils.exceptions import PreprocessingError
 from engine.utils.logging import get_logger
 
 logger = get_logger(__name__)
 
-# ---------------------------------------------------------------------------
-# Template filenames (co-located in templates/)
-# ---------------------------------------------------------------------------
-_SCENE_TEMPLATE = "scene_description.txt"
-_STYLE_TEMPLATE = "caption_styles.txt"
 
+def extract_frames(
+    video_path: str,
+    output_dir: str,
+    video_info: VideoInfo,
+    max_frames: int = 60,
+) -> list[str]:
+    """Extract JPEG frames from a video file.
 
-# ---------------------------------------------------------------------------
-# Public API
-# ---------------------------------------------------------------------------
-
-
-def build_scene_prompt(frame_paths: list[str]) -> list[dict[str, Any]]:
-    """Build a multimodal prompt for canonical scene description.
-
-    Loads the scene-description template, injects the frame count, and
-    attaches every sampled frame as a base64-encoded JPEG image.
+    The extraction frame rate is calculated so that the total number of
+    extracted frames stays within *max_frames*.  If the calculated rate
+    exceeds the video's native fps, the native fps is used instead (i.e.
+    we never up-sample).
 
     Args:
-        frame_paths: Absolute paths to the sampled frame images.
+        video_path: Path to the source video file.
+        output_dir: Directory where extracted frames will be written.
+            Created automatically if it does not exist.
+        video_info: Metadata returned by :func:`validate_video`.
+        max_frames: Upper bound on the number of frames to extract.
 
     Returns:
-        A messages list in OpenAI chat-completions format containing a
-        single ``user`` message whose ``content`` is a list of text and
-        image_url parts.
+        Sorted list of absolute paths to the extracted JPEG frames.
 
     Raises:
-        FileNotFoundError: If a frame path does not exist.
+        PreprocessingError: If FFmpeg fails or no frames are produced.
     """
-    template = load_template(_SCENE_TEMPLATE)
-    prompt_text = template.format(frame_count=len(frame_paths))
+    os.makedirs(output_dir, exist_ok=True)
 
-    # Build the content parts list: leading text + one image per frame
-    content_parts: list[dict[str, Any]] = [
-        {"type": "text", "text": prompt_text},
-    ]
-
-    for path in frame_paths:
-        encoded = _encode_image(path)
-        content_parts.append(
-            {
-                "type": "image_url",
-                "image_url": {"url": f"data:image/jpeg;base64,{encoded}"},
-            }
-        )
-
-    messages: list[dict[str, Any]] = [
-        {"role": "user", "content": content_parts},
-    ]
+    # --- Determine extraction fps ---
+    extraction_fps = max_frames / video_info.duration_seconds
+    # Never exceed the video's native fps.
+    if extraction_fps > video_info.fps:
+        extraction_fps = video_info.fps
 
     logger.info(
-        "Built scene prompt with %d frame(s) attached",
-        len(frame_paths),
+        "Extracting frames — target fps=%.4f (native=%.2f, budget=%d, duration=%.2fs)",
+        extraction_fps,
+        video_info.fps,
+        max_frames,
+        video_info.duration_seconds,
     )
-    return messages
 
+    output_pattern = os.path.join(output_dir, "frame_%05d.jpg")
 
-def build_style_prompt(scene_description: str) -> list[dict[str, Any]]:
-    """Build a text prompt for multi-style caption generation.
-
-    Loads the caption-styles template and injects the scene description
-    produced by the previous pipeline stage.
-
-    Args:
-        scene_description: The canonical scene description text.
-
-    Returns:
-        A messages list in OpenAI chat-completions format containing a
-        single ``user`` message with the formatted prompt as a string.
-    """
-    template = load_template(_STYLE_TEMPLATE)
-    prompt_text = template.format(scene_description=scene_description)
-
-    messages: list[dict[str, Any]] = [
-        {"role": "user", "content": prompt_text},
+    # Cap frame width at 640px. Vision models downscale large images
+    # internally anyway, so this costs no caption quality while cutting
+    # per-frame memory (and the base64 payload built from it later) by
+    # roughly 10x for typical 1080p+ source videos — the main fix for
+    # OOM crashes on memory-constrained free hosting tiers.
+    cmd = [
+        "ffmpeg",
+        "-i", video_path,
+        "-vf", f"fps={extraction_fps},scale='min(640,iw)':-2",
+        "-q:v", "2",
+        output_pattern,
     ]
 
-    logger.info("Built style prompt from scene description")
-    return messages
+    logger.debug("Running FFmpeg: %s", " ".join(cmd))
 
+    try:
+        subprocess.run(
+            cmd,
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+    except FileNotFoundError as exc:
+        raise PreprocessingError(
+            "FFmpeg not found. Ensure FFmpeg is installed and on PATH."
+        ) from exc
+    except subprocess.CalledProcessError as exc:
+        raise PreprocessingError(
+            f"FFmpeg frame extraction failed (exit {exc.returncode}): "
+            f"{exc.stderr.strip()}"
+        ) from exc
 
-# ---------------------------------------------------------------------------
-# Internal helpers
-# ---------------------------------------------------------------------------
+    # --- Collect extracted frame paths ---
+    frame_paths = sorted(
+        str(p) for p in Path(output_dir).glob("frame_*.jpg")
+    )
 
+    if not frame_paths:
+        raise PreprocessingError(
+            "FFmpeg completed but no frames were produced."
+        )
 
-def _encode_image(path: str) -> str:
-    """Read an image file and return its base64 representation.
-
-    Args:
-        path: Absolute path to the image file.
-
-    Returns:
-        A base64-encoded string of the file contents.
-
-    Raises:
-        FileNotFoundError: If *path* does not point to an existing file.
-    """
-    with open(path, "rb") as f:
-        return base64.b64encode(f.read()).decode("ascii")
+    logger.info("Extracted %d frames to %s", len(frame_paths), output_dir)
+    return frame_paths
