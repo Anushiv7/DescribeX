@@ -10,6 +10,9 @@ import json
 import logging
 import os
 import sys
+import urllib.request
+import urllib.parse
+from urllib.error import URLError
 
 from engine.core.caption_engine import CaptionEngine
 from engine.utils.exceptions import DescribeXError
@@ -50,33 +53,89 @@ def main() -> None:
     has_errors = False
 
     for task in tasks:
-        task_id = task.get("id")
+        task_id = task.get("task_id")
         video_filename = task.get("video")
+        video_url = task.get("video_url")
+        requested_styles = task.get("styles")
 
-        if not task_id or not video_filename:
-            logger.warning("Skipping invalid task: %s", task)
-            results.append({"id": task_id, "error": "Invalid task definition"})
+        if not task_id:
+            logger.warning("Skipping invalid task without task_id: %s", task)
+            results.append({"task_id": task_id, "error": "Invalid task definition (missing task_id)"})
             has_errors = True
             continue
 
-        video_path = os.path.join(input_dir, video_filename)
+        if not video_filename and not video_url:
+            logger.warning("Skipping invalid task %s (no video or video_url)", task_id)
+            results.append({"task_id": task_id, "error": "Invalid task definition (missing video and video_url)"})
+            has_errors = True
+            continue
+
+        # Prioritize video -> video_url -> error
+        video_path = None
+        downloaded = False
+        if video_filename:
+            video_path = os.path.join(input_dir, video_filename)
+            if not os.path.exists(video_path):
+                logger.warning("Local video file not found: %s", video_path)
+                if video_url:
+                    video_path = None # Fallback to URL
+                else:
+                    results.append({"task_id": task_id, "error": f"Local video file not found: {video_filename}"})
+                    has_errors = True
+                    continue
+
+        if not video_path and video_url:
+            try:
+                parsed_url = urllib.parse.urlparse(video_url)
+                filename = os.path.basename(parsed_url.path) or f"downloaded_{task_id}.mp4"
+                video_path = os.path.join(input_dir, filename)
+                logger.info("Downloading remote video for task %s from %s to %s", task_id, video_url, video_path)
+                urllib.request.urlretrieve(video_url, video_path)
+                downloaded = True
+            except Exception as exc:
+                logger.error("Failed to download video for task %s: %s", task_id, exc)
+                results.append({"task_id": task_id, "error": f"Failed to download video: {exc}"})
+                has_errors = True
+                continue
+
+        if not video_path:
+             results.append({"task_id": task_id, "error": "Could not determine video path"})
+             has_errors = True
+             continue
+
         logger.info("Processing task %s (video: %s)", task_id, video_path)
 
         try:
             captions = engine.generate_captions(video_path)
+            
+            # Filter by requested styles if provided, ignoring unsupported styles
+            if requested_styles and isinstance(requested_styles, list):
+                filtered_captions = {
+                    style: text for style, text in captions.items()
+                    if style in requested_styles
+                }
+                captions = filtered_captions
+                
             results.append({
-                "id": task_id,
+                "task_id": task_id,
                 "captions": captions
             })
             logger.info("Task %s completed successfully", task_id)
         except DescribeXError as exc:
             logger.error("DescribeXError processing task %s: %s", task_id, exc)
-            results.append({"id": task_id, "error": str(exc)})
+            results.append({"task_id": task_id, "error": str(exc)})
             has_errors = True
         except Exception as exc:
             logger.error("Unexpected error processing task %s: %s", task_id, exc)
-            results.append({"id": task_id, "error": "Unexpected internal error"})
+            results.append({"task_id": task_id, "error": "Unexpected internal error"})
             has_errors = True
+        finally:
+            if downloaded and video_path and os.path.exists(video_path):
+                try:
+                    os.remove(video_path)
+                    logger.info("Deleted temporary downloaded video: %s", video_path)
+                except Exception as exc:
+                    logger.warning("Failed to delete temporary video %s: %s", video_path, exc)
 
     # Ensure output directory exists (though Docker usually maps it).
     os.makedirs(os.path.dirname(output_path), exist_ok=True)

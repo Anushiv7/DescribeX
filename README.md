@@ -284,8 +284,10 @@ Example
 ```json
 [
   {
-    "id": "task_1",
-    "video": "example.mp4"
+    "task_id": "task_1",
+    "video": "example.mp4",
+    "video_url": "https://example.com/video.mp4",
+    "styles": ["formal", "sarcastic", "humorous_tech", "humorous_non_tech"]
   }
 ]
 ```
@@ -305,7 +307,7 @@ Example
 ```json
 [
   {
-    "id": "task_1",
+    "task_id": "task_1",
     "captions": {
       "formal": "...",
       "sarcastic": "...",

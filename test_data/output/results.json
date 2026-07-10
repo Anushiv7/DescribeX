@@ -1,0 +1,29 @@
+[
+  {
+    "task_id": "v1",
+    "captions": {
+      "humorous_tech": "Looks like the video got caught in an infinite loop of bad compression-think of it as a memory leak for pixels. The tiny race cars are sprinting like packets in a congested network, while the background stays cached and unchanged. If this were a Git commit, it would be a merge conflict you can't resolve.",
+      "formal": "The footage depicts an urban street adjacent to Korea University's engineering department, with a multi-lane road flanked by autumnal trees. Low-profile racing vehicles in red, blue, white and black traverse the roadway from foreground to background. The entire scene is heavily pixelated, resulting in a mosaic-like distortion that obscures fine details while preserving overall composition.",
+      "humorous_non_tech": "It's like watching a Sunday parade through a frosted window-you can see the colors, but the details are a mystery. The trees are doing their best autumn costume, and the little cars are probably just trying to get to the ice cream stand. All that pixelation makes it feel like someone pressed the 'blur' button on purpose.",
+      "sarcastic": "Oh great, another crystal-clear view of a city street-if you squint through a kaleidoscope. Those go-kart-like cars are practically invisible, but at least the KOREA UNIVERSITY sign is still legible. Nothing says 'professional footage' like a digital art project gone wrong."
+    }
+  },
+  {
+    "task_id": "v2",
+    "captions": {
+      "humorous_tech": "Looks like the GPU decided to render a never-ending texture cache of greens and browns and then forgot to update the frame buffer. No sprites, no UI, just pure procedural noise that would make a shader programmer weep with joy. It's basically the screensaver version of a memory leak-always there, never progressing.",
+      "formal": "The video presents an abstract visual composition consisting of densely tessellated patterns in shades of green, brown, and yellow. No discernible objects, subjects, or motion are observable, resulting in a static, non-narrative sequence. The overall tone is surreal and hallucinatory, lacking any contextual cues regarding location or time.",
+      "humorous_non_tech": "Imagine staring at a wall covered in endless green and brown tiles that never move-like a never-ending patch of grass you can't mow. There's no people, no pets, just a psychedelic pattern that could double as a very confusing rug. It's the visual equivalent of waiting for toast that never pops up.",
+      "sarcastic": "Wow, a riveting display of endless green-brown kaleidoscopes-just what we all needed. No action, no story, just a hypnotic wallpaper that refuses to change. It's the visual equivalent of a meeting that could have been an email."
+    }
+  },
+  {
+    "task_id": "v3",
+    "captions": {
+      "humorous_tech": "The coder-in-a-tie is debugging his own thoughts, flicking the mouse like it's a cursor in a never-ending loop. Every head turn feels like a git checkout to a new branch of contemplation, while the office plants run a background process called 'photosynthesis.exe'. The video's high-contrast filter is basically a retro CRT theme for the modern dev.",
+      "formal": "The video depicts a professional seated in an office environment, wearing a white dress shirt and a red tie, with a cross pendant visible. Subtle head movements and hand gestures suggest engagement with a computer or discussion, while the background features indoor plants and warm artificial lighting. The visual style is high-contrast and posterized, emphasizing the subject against a dark backdrop.",
+      "humorous_non_tech": "He's sitting there looking like he's about to give a TED talk, but all we get are tiny head nods and mouse-cord gymnastics. The plants in the background seem more lively than his conversation, and that red tie is working overtime to keep things interesting. It's the kind of office scene that makes you wonder if coffee is the real star.",
+      "sarcastic": "Oh look, another riveting office drama where the star's biggest move is a dramatic mouse-cord swing. He's practically reinventing the art of subtle head tilts while the plants silently judge his tie choice. All this excitement captured in glorious posterized contrast-truly edge-of-your-seat material."
+    }
+  }
+]
