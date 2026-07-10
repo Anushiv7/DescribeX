@@ -10,6 +10,12 @@
 
 Built for **AMD Developer Hackathon: ACT II — Track 2 (Video Captioning)**
 
+<p align="center">
+
+<img src="Branding/Screenshots/landing.png" width="900"/>
+
+</p>
+
 <br>
 
 ![Python](https://img.shields.io/badge/Python-3.11-3776AB?style=for-the-badge&logo=python&logoColor=white)
@@ -78,6 +84,29 @@ Thank you for your understanding and for reviewing our project.
 
 ---
 
+# 🏗️ Architecture
+
+<p align="center">
+</p>
+
+DescribeX consists of two independent but tightly integrated components.
+
+## 🌐 DescribeX Web
+
+A modern **Next.js** application focused on user experience.
+
+Responsibilities:
+
+- Upload videos
+- Manage caption jobs
+- Display AI responses
+- Caption editing
+- Export workflow
+- Responsive UI
+
+---
+
+
 # 📸 Screenshots
 
 > Store screenshots inside:
@@ -89,31 +118,31 @@ Branding/
 
 ## 🏠 Landing Page
 
-![Landing Page](Branding/screenshots/landing.png)
+![Landing Page](Branding/Screenshots/landing.png)
 
 ---
 
 ## 📤 Upload Workflow
 
-![Upload](Branding/screenshots/upload.png)
+![Upload](Branding/Screenshots/upload.png)
 
 ---
 
 ## 🤖 Caption Generation
 
-![Caption Generation](Branding/screenshots/captions.png)
+![Caption Generation](Branding/Screenshots/captions.png)
 
 ---
 
 ## ✏️ Caption Editing
 
-![Editing](Branding/screenshots/editing.png)
+![Editing](Branding/Screenshots/editing.png)
 
 ---
 
 ## 📥 Export Options
 
-![Export](Branding/screenshots/export.png)
+![Export](Branding/Screenshots/export.png)
 
 ---
 # 🚀 Running DescribeX Locally
@@ -293,13 +322,20 @@ This execution model follows the AMD Developer Hackathon container requirements.
 
 # 🌐 Deployment
 
-DescribeX follows a split deployment architecture.
-
 | Component | Platform |
 |-----------|----------|
 | Frontend | Vercel |
-| Backend | Render *(temporary)* |
+| Backend | Render (Temporary) |
 | Planned Production | AMD Developer Cloud |
+
+### Required Environment Variables
+
+| Variable | Description |
+|-----------|-------------|
+| DESCRIBEX_PROVIDER | AI Provider |
+| DESCRIBEX_FIREWORKS_API_KEY | Fireworks API Key |
+| DESCRIBEX_VISION_MODEL_ID | Vision Model |
+| DESCRIBEX_TEXT_MODEL_ID | Text Model |
 
 ---
 
@@ -310,28 +346,6 @@ Frontend deployment is handled through **Vercel**.
 The backend was temporarily deployed on **Render** for demonstration purposes.
 
 Production deployment was intended for **AMD Developer Cloud**, which offers significantly better infrastructure for AI-powered video processing workloads.
-
----
-
-# 🏗️ Architecture
-
-<p align="center">
-</p>
-
-DescribeX consists of two independent but tightly integrated components.
-
-## 🌐 DescribeX Web
-
-A modern **Next.js** application focused on user experience.
-
-Responsibilities:
-
-- Upload videos
-- Manage caption jobs
-- Display AI responses
-- Caption editing
-- Export workflow
-- Responsive UI
 
 ---
 
@@ -428,6 +442,7 @@ The caption engine is completely separated from the frontend, allowing it to be 
 | Containerization | Docker |
 
 ---
+
 # 📂 Repository Structure
 
 ```text
@@ -471,35 +486,22 @@ DescribeX
 ├── .dockerignore
 └── .gitignore
 ```
----
+## Documentation
 
-# 🔐 Environment Variables
+Detailed documentation is available inside:
 
-The following variables are required.
+docs/
 
-| Variable | Description |
-|-----------|-------------|
-| `DESCRIBEX_PROVIDER` | AI Provider |
-| `DESCRIBEX_FIREWORKS_API_KEY` | Fireworks API Key |
-| `DESCRIBEX_VISION_MODEL_ID` | Vision Model |
-| `DESCRIBEX_TEXT_MODEL_ID` | Text Model |
-
----
-
-# 📖 Documentation
-
-Additional project documentation is available inside the **docs/** directory.
-
-Included documentation includes:
-
-- Product Requirements Document (PRD)
+- PRD
 - Software Architecture
-- Project Scaffolding
-- Development Planning
 - API Documentation
-- Hackathon Notes
+- Development Notes
 
 ---
+
+
+---
+
 # 🎯 Guiding Principles
 
 DescribeX was designed around a few simple principles that influenced every architectural and product decision.
@@ -542,123 +544,44 @@ Generated captions remain fully editable, keeping creators in complete control.
 
 ---
 
-# 🚧 Project Status
+# 🚧 Development Status
 
-## Current Progress
+## Completed
 
-| Component | Status |
-|-----------|:------:|
-| Frontend UI | ✅ |
-| Backend API | ✅ |
-| Caption Engine | ✅ |
-| Docker Container | ✅ |
-| Fireworks AI Integration | ✅ |
-| Local End-to-End Execution | ✅ |
-| Multi-style Caption Generation | ✅ |
-| Production Deployment | 🚧 |
-| AMD Developer Cloud Deployment | ⏳ |
+- Frontend
+- Caption Engine
+- Docker
+- Fireworks AI Integration
+- Local Execution
 
----
+## Currently Working On
 
-# 🛣 Roadmap
+- Production deployment
+- AMD Developer Cloud deployment
+- Export improvements
 
-DescribeX is intended to continue beyond the AMD Developer Hackathon.
+## Future Plans
 
-## ✅ Phase 1 — Foundation
-
-- Project architecture
-- Caption engine
-- Configuration system
-- Logging
-- Exception handling
-- Docker support
-- Frontend prototype
-- Fireworks AI integration
-
-**Status:** Complete
-
----
-
-## 🚧 Phase 2 — Intelligent Captioning
-
-- Multi-style prompting
-- Vision understanding
-- Caption refinement
-- Human editing workflow
-- Improved exports
-- Performance optimisation
-
-**Status:** In Progress
-
----
-
-## ⏳ Phase 3 — Creator Platform
-
-Planned improvements include:
-
-- User authentication
+- Authentication
 - Caption history
 - Cloud storage
-- Team workspaces
-- Shareable projects
-- AI prompt customization
-- Custom caption styles
-- Multi-language caption generation
-- Batch video processing
-
----
-
-## 🔮 Future Vision
-
-Long-term goals include:
-
-- Desktop application
-- Mobile companion app
-- Plugin ecosystem
-- API for developers
-- Local LLM support
-- AMD GPU acceleration
+- Batch processing
+- Multi-language support
 - Offline inference
-- Enterprise deployment options
 
----
-
-# 🌍 Vision
-
-DescribeX was never intended to be "just another hackathon project."
-
-Our goal is to build an open platform that makes professional-quality caption generation accessible to every creator, regardless of budget or technical background.
-
-As AI tools become increasingly central to content creation, we believe creators should retain ownership, flexibility, and transparency—not become locked into closed ecosystems.
-
-DescribeX represents our first step toward that vision.
-
+DescribeX is intended to continue beyond the AMD Developer Hackathon as an open-source creator platform focused on accessibility, portability, and creator ownership.
 ---
 
 # 🤝 Contributing
 
-Contributions are always welcome.
+Contributions of all kinds are welcome.
 
-Whether it's:
-
-- Bug fixes
-- Documentation improvements
-- Performance optimisations
-- New export formats
-- UI enhancements
-- New caption styles
-
-...every contribution helps improve DescribeX.
-
-If you'd like to contribute:
+If you'd like to improve DescribeX:
 
 1. Fork the repository.
 2. Create a feature branch.
 3. Commit your changes.
 4. Open a Pull Request.
-
-We appreciate every contribution, no matter how small.
-
 ---
 
 # 📄 License
@@ -668,16 +591,6 @@ This project is licensed under the **MIT License**.
 You're free to use, modify, and distribute the project in accordance with the license terms.
 
 See the `LICENSE` file for details.
-
----
-
-# 🙏 Acknowledgements
-
-Special thanks to:
-
-- **AMD Developer Hackathon** for the opportunity and challenge.
-- **Fireworks AI** for providing high-performance inference APIs.
-- The open-source community whose tools and libraries made this project possible.
 
 ---
 
