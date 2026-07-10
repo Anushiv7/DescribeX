@@ -112,6 +112,7 @@ The same Caption Engine powers both the Docker submission and the DescribeX web 
 <p align="center">
 </p>
 
+```
 DescribeX consists of two independent but tightly integrated components.
 tasks.json
       │
@@ -129,6 +130,7 @@ Download
       │
       ▼
 Frame Extraction
+```
 
 ## 🌐 DescribeX Web
 
