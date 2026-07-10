@@ -10,8 +10,8 @@ import json
 import logging
 import os
 import sys
-import urllib.request
 import urllib.parse
+from engine.utils.download import download_video
 from urllib.error import URLError
 
 from engine.core.caption_engine import CaptionEngine
@@ -86,11 +86,7 @@ def main() -> None:
 
         if not video_path and video_url:
             try:
-                parsed_url = urllib.parse.urlparse(video_url)
-                filename = os.path.basename(parsed_url.path) or f"downloaded_{task_id}.mp4"
-                video_path = os.path.join(input_dir, filename)
-                logger.info("Downloading remote video for task %s from %s to %s", task_id, video_url, video_path)
-                urllib.request.urlretrieve(video_url, video_path)
+                video_path = download_video(video_url, input_dir, prefix=f"downloaded_{task_id}_")
                 downloaded = True
             except Exception as exc:
                 logger.error("Failed to download video for task %s: %s", task_id, exc)

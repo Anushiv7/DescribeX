@@ -5,6 +5,7 @@ import { useState } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import UploadZone from '@/components/UploadZone';
+import UrlInputZone from '@/components/UrlInputZone';
 import VideoPreview from '@/components/VideoPreview';
 import LoadingOverlay from '@/components/LoadingOverlay';
 import CaptionCard from '@/components/CaptionCard';
@@ -25,8 +26,10 @@ const PIPELINE = [
 ] as const;
 
 export default function Home() {
-  const { file, previewUrl, error: fileError, handleFile, clearFile } = useFileUpload();
+  const { file, remoteUrl, previewUrl, error: fileError, handleFile, handleUrl, clearFile } = useFileUpload();
   const { status, loadingMessage, captions, error: genError, generate, reset } = useCaptionGeneration();
+
+  const [activeTab, setActiveTab] = useState<'upload' | 'url'>('upload');
 
   const [editedCaptions, setEditedCaptions] = useState<Record<string, string>>({});
 
@@ -92,7 +95,35 @@ export default function Home() {
                   {fileError}
                 </div>
               )}
-              <UploadZone onFileSelect={handleFile} />
+              
+              <div className="flex bg-[var(--color-card)] border border-[var(--color-border)] rounded-xl p-1 mb-6 w-full max-w-sm mx-auto">
+                <button
+                  onClick={() => setActiveTab('upload')}
+                  className={`flex-1 py-2 text-sm font-medium rounded-lg transition-all ${
+                    activeTab === 'upload'
+                      ? 'bg-[var(--color-fg)] text-[var(--color-bg)] shadow-sm'
+                      : 'text-[var(--color-muted)] hover:text-[var(--color-fg)]'
+                  }`}
+                >
+                  Upload Video
+                </button>
+                <button
+                  onClick={() => setActiveTab('url')}
+                  className={`flex-1 py-2 text-sm font-medium rounded-lg transition-all ${
+                    activeTab === 'url'
+                      ? 'bg-[var(--color-fg)] text-[var(--color-bg)] shadow-sm'
+                      : 'text-[var(--color-muted)] hover:text-[var(--color-fg)]'
+                  }`}
+                >
+                  Video URL
+                </button>
+              </div>
+
+              {activeTab === 'upload' ? (
+                <UploadZone onFileSelect={handleFile} />
+              ) : (
+                <UrlInputZone onUrlSubmit={handleUrl} />
+              )}
             </div>
           </section>
         )}
@@ -110,13 +141,13 @@ export default function Home() {
               <div className="space-y-6">
                 <VideoPreview
                   url={previewUrl!}
-                  filename={file?.name || ''}
+                  filename={file?.name || (remoteUrl ? 'Remote Video URL' : '')}
                   onClear={handleClear}
                 />
 
                 {status === 'idle' && (
                   <button
-                    onClick={() => generate(file!)}
+                    onClick={() => generate(file, remoteUrl)}
                     className="w-full py-4 rounded-2xl text-base font-semibold bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] text-white transition-all duration-200 ease-out shadow-[0_10px_40px_-10px_rgba(202,5,5,0.25)]"
                   >
                     Generate Captions

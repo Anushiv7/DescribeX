@@ -1,9 +1,14 @@
 import { API_BASE_URL } from '@/lib/config';
 import { CaptionsResponse } from '@/types/api';
 
-export async function generateCaptions(file: File): Promise<CaptionsResponse> {
+export async function generateCaptions(file?: File, videoUrl?: string): Promise<CaptionsResponse> {
   const formData = new FormData();
-  formData.append('video', file);
+  if (file) {
+    formData.append('video', file);
+  }
+  if (videoUrl) {
+    formData.append('video_url', videoUrl);
+  }
 
   const res = await fetch(`${API_BASE_URL}/caption`, {
     method: 'POST',

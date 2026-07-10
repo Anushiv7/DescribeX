@@ -4,6 +4,7 @@ import { ALLOWED_VIDEO_TYPES, MAX_VIDEO_SIZE_MB } from '@/lib/constants';
 export function useFileUpload() {
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [remoteUrl, setRemoteUrl] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const handleFile = useCallback((selectedFile: File) => {
@@ -22,17 +23,36 @@ export function useFileUpload() {
     setFile(selectedFile);
     const url = URL.createObjectURL(selectedFile);
     setPreviewUrl(url);
+    setRemoteUrl(null); // Clear remote url if file is selected
+    return true;
+  }, []);
+
+  const handleUrl = useCallback((url: string) => {
+    setError(null);
+    if (!url || !url.startsWith('http')) {
+      setError('Please provide a valid publicly accessible URL.');
+      return false;
+    }
+    if (!url.toLowerCase().endsWith('.mp4') && !url.includes('mp4')) {
+      setError('Please provide a URL to an MP4 video.');
+      return false;
+    }
+    
+    setRemoteUrl(url);
+    setPreviewUrl(url);
+    setFile(null); // Clear local file if url is provided
     return true;
   }, []);
 
   const clearFile = useCallback(() => {
     setFile(null);
-    if (previewUrl) {
+    if (previewUrl && !remoteUrl) {
       URL.revokeObjectURL(previewUrl);
     }
     setPreviewUrl(null);
+    setRemoteUrl(null);
     setError(null);
-  }, [previewUrl]);
+  }, [previewUrl, remoteUrl]);
 
-  return { file, previewUrl, error, handleFile, clearFile };
+  return { file, remoteUrl, previewUrl, error, handleFile, handleUrl, clearFile };
 }

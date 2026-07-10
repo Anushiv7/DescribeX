@@ -18,6 +18,7 @@ from fastapi.responses import FileResponse, JSONResponse
 
 from engine.core.caption_engine import CaptionEngine
 from engine.export import burn_captions, export_txt
+from engine.utils.download import download_video
 from engine.utils.exceptions import DescribeXError
 
 app = FastAPI(
@@ -55,19 +56,29 @@ async def health_check() -> dict[str, str]:
 @app.post("/caption")
 async def generate_captions(
     background_tasks: BackgroundTasks,
-    video: UploadFile = File(...),
+    video: UploadFile = File(None),
+    video_url: Annotated[str, Form()] = None,
 ) -> JSONResponse:
-    """Generate captions for an uploaded video."""
-    if not video.filename:
-        raise HTTPException(status_code=400, detail="No filename provided.")
+    """Generate captions for an uploaded video or remote URL."""
+    if not video and not video_url:
+        raise HTTPException(status_code=400, detail="Must provide either a video file or video_url.")
 
-    ext = os.path.splitext(video.filename)[1].lower()
-    
-    with tempfile.NamedTemporaryFile(delete=False, suffix=ext) as tmp:
-        shutil.copyfileobj(video.file, tmp)
-        tmp_path = tmp.name
+    tmp_path = None
+    if video and video.filename:
+        ext = os.path.splitext(video.filename)[1].lower()
+        with tempfile.NamedTemporaryFile(delete=False, suffix=ext) as tmp:
+            shutil.copyfileobj(video.file, tmp)
+            tmp_path = tmp.name
+    elif video_url:
+        temp_dir = tempfile.mkdtemp()
+        background_tasks.add_task(lambda p: shutil.rmtree(p, ignore_errors=True), temp_dir)
+        try:
+            tmp_path = download_video(video_url, temp_dir)
+        except Exception as exc:
+            raise HTTPException(status_code=400, detail=f"Failed to download video: {exc}")
 
-    background_tasks.add_task(_cleanup_temp_file, tmp_path)
+    if tmp_path:
+        background_tasks.add_task(_cleanup_temp_file, tmp_path)
 
     try:
         captions = engine.generate_captions(tmp_path)

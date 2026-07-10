@@ -18,7 +18,7 @@ export function useCaptionGeneration() {
   const [captions, setCaptions] = useState<CaptionsResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const generate = useCallback(async (file: File) => {
+  const generate = useCallback(async (file?: File | null, videoUrl?: string | null) => {
     setStatus('processing');
     setError(null);
     setCaptions(null);
@@ -32,7 +32,7 @@ export function useCaptionGeneration() {
     }, 15000); // Change message every 15 seconds
 
     try {
-      const result = await generateCaptions(file);
+      const result = await generateCaptions(file || undefined, videoUrl || undefined);
       setCaptions(result);
       setStatus('done');
     } catch (err: any) {
